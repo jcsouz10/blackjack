@@ -9,13 +9,14 @@ class App extends Component {
     this.state={
       cards:[1,2,3,4,5,6,7,8,9,10,11],
       currentCard:'',
-      cardsPlayer1:[],
+      cardsPlayer:[],
+      cardsDealer:[],      
     }
   }
   
   startGame = () =>{
     this.setState({
-      cardsPlayer1: this.state.cardsPlayer1.concat(this.state.cards.splice(0,2))
+      cardsPlayer: this.state.cardsPlayer.concat(this.state.cards.splice(0,2))
     })
   }
   
@@ -23,7 +24,7 @@ class App extends Component {
     
     // Dando uma carta por vez...
     this.setState({
-      cardsPlayer1: this.state.cardsPlayer1.concat(this.state.cards.splice(0,1))
+      cardsPlayer: this.state.cardsPlayer.concat(this.state.cards.splice(0,1))
     })
     
     // Fazer a lógica de A valer 11 ou se for a segunda carta valer 1
@@ -32,7 +33,7 @@ class App extends Component {
     
  
     // Verificar se deu 21...
-    if(this.state.cardsPlayer1.reduce((a, b) => a + b)===21){
+    if(this.state.cardsPlayer.reduce((a, b) => a + b)===21){
       alert('player one winner')
     }
   }
@@ -58,7 +59,7 @@ class App extends Component {
            <h1> Player 1 </h1>
         <div className="App-intro">
           <div className='table'> 
-            {this.state.cardsPlayer1.map(i=><p className='card' key={i}><p className='number'>{i}</p></p>)}
+            {this.state.cardsPlayer.map(i=><p className='card' key={i}><p className='number'>{i}</p></p>)}
           </div>
         </div>
       </div>
