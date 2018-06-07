@@ -21,7 +21,7 @@ class App extends Component {
   }
   
   giveTheCards = () =>{
-    
+
     // Dando uma carta por vez...
     this.setState({
       cardsPlayer: this.state.cardsPlayer.concat(this.state.cards.splice(0,1))
@@ -39,7 +39,7 @@ class App extends Component {
   }
 
   finishGame = () =>{
-        
+        // Fazer o reducer do dealer e do player e ver qual foi o maior, se o player ou o dealer fizeram 21 um antes do outro
   }
   
   render() {
@@ -59,7 +59,7 @@ class App extends Component {
            <h1> Player 1 </h1>
         <div className="App-intro">
           <div className='table'> 
-            {this.state.cardsPlayer.map(i=><p className='card' key={i}><p className='number'>{i}</p></p>)}
+            {this.state.cardsPlayer.map(i=><div className="card" key={i}><p className='number'>{i}</p></div>)}
           </div>
         </div>
       </div>
