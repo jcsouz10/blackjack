@@ -2,69 +2,60 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
 
-    this.state={
-      cards:[1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11],
-      cardsPlayer:[],
-      cardsDealer:[],
-      teste: [],
+    this.state = {
+      cards: [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11],
+      randomCards: [],
+      cardsPlayer: [],
+      cardsDealer: [],
+      valuePlayer: ''
     }
   }
-  
-  startGame = () =>{
-    this.setState({
-      cardsPlayer: this.state.cardsPlayer.concat(this.state.cards.splice(0,2)),
-      cardsDealer: this.state.cardsDealer.concat(this.state.cards.splice(0,2)),
-    })   
+
+  startGame = () => {
+    for (let i = 0; i < this.state.cards.length; i++) {
+      const randomCards = this.state.cards[Math.floor(Math.random() * this.state.cards.length)];
+      this.state.randomCards.push(randomCards)
+    }
+
+    this.setState(prevState => ({
+      cardsPlayer: this.state.cardsPlayer.concat(prevState.randomCards.splice(0, 2)),
+      cardsDealer: this.state.cardsDealer.concat(prevState.randomCards.splice(0, 2)),
+    }))
 
 
   }
 
-  verficatedPlayerWin = () =>{
-    if(this.state.cardsPlayer.reduce((a, b) => a + b)===2){
+  winner = () => {
+    if (this.state.cardsPlayer.reduce((a, b) => a + b) === 21) {
       alert('player winner')
     }
   }
 
-  
-  giveTheCards = () =>{
-    // Dando uma carta por vez...
-    this.setState({
-      cardsPlayer: this.state.cardsPlayer.concat(this.state.cards.splice(0,1))
-    }) 
- 
-    // Verificar se deu 21...
-    if(this.state.cardsPlayer.reduce((a, b) => a + b)===21){
+  giveCards = () => {
+
+    if (this.state.cardsPlayer.reduce((a, b) => a + b) > 21) {
+     alert('busted')
+    } else if  (this.state.cardsPlayer.reduce((a, b) => a + b) < 21) { 
       alert('player winner')
     }
   }
 
-  teste = () =>{
-    this.setState({
-      cardsDealer: this.state.cardsDealer.concat(this.state.cards.splice(0,1))
-    }) 
-  }
-
-  finishGame = () =>{
-    // Fazer o reducer do dealer e do player e ver qual foi o maior, se o player ou o dealer fizeram 21 um antes do outro
+  finishGame = () => {
     const scorePlayer = this.state.cardsPlayer.reduce((a, b) => a + b);
-
     const scoreDealer = this.state.cardsDealer.reduce((a, b) => a + b);
-    
 
-    if(scorePlayer<scoreDealer){
-      for (let i = scoreDealer; scorePlayer < scoreDealer; i++){
-            if (i === 3) { break; }
-            console.log('foi')
-      }
+    for (let i = scoreDealer; i < scorePlayer; i++) {
+      this.state.cardsDealer.push(this.state.randomCards.splice(0, 1))
     }
-}
-  
-  
-  
+
+
+  }
+
   render() {
     console.log(this.state.cardsDealer)
     return (
@@ -73,22 +64,21 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">BLACK JACK</h1>
           <div>
-            <button  className='buttons' onClick={this.startGame}> Começar </button>
-            <button  className='buttons' onClick={this.giveTheCards}> Dar as cartas </button>
+            <button className='buttons' onClick={this.startGame}> Começar </button>
+            <button className='buttons' onClick={this.giveCards}> Dar as cartas </button>
             <button className='buttons' onClick={this.finishGame}> Finalizar </button>
           </div>
-
         </header>
-           <h1> Player 1 </h1>
+        <h1> Player 1 </h1>
         <div className="App-intro">
-          <div className='table'> 
-            {this.state.cardsPlayer.map(i=><div className="card" key={i}><p className='number'>{i}</p></div>)}
+          <div className='table'>
+            {this.state.cardsPlayer.map(i => <div className="card" key={i}><p className='number'>{i}</p></div>)}
           </div>
         </div>
         <h1> Dealer </h1>
         <div className="App-intro">
-          <div className='table'> 
-            {this.state.cardsDealer.map(i=><div className="card" key={i}><p className='number'>{i}</p></div>)}
+          <div className='table'>
+            {this.state.cardsDealer.map((i) => <div className="card" key={i}><p className='number'>{i}</p></div>)}
           </div>
         </div>
       </div>
