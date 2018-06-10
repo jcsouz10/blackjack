@@ -6,81 +6,140 @@ import './App.css';
 class App extends Component {
   constructor() {
     super();
-
+    
     this.state = {
       cards: [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11],
       randomCards: [],
       cardsPlayer: [],
+      startCardsDealer: [null],
       cardsDealer: [],
-      valuePlayer: ''
+      winner: false,
+      cardsDealerStart: false
     }
   }
-
+  
   startGame = () => {
+    // Essa função, é para embaralhar o baralho (cards para randomCards).
     for (let i = 0; i < this.state.cards.length; i++) {
       const randomCards = this.state.cards[Math.floor(Math.random() * this.state.cards.length)];
       this.state.randomCards.push(randomCards)
     }
-
+    
+    //Após dar duas cartas para cada jogador (Dealer e Player).
     this.setState(prevState => ({
       cardsPlayer: this.state.cardsPlayer.concat(prevState.randomCards.splice(0, 2)),
-      cardsDealer: this.state.cardsDealer.concat(prevState.randomCards.splice(0, 2)),
+      cardsDealer: this.state.cardsDealer.concat(prevState.randomCards.splice(0, 1)),
+      startCardsDealer: this.state.startCardsDealer.concat(prevState.randomCards.splice(0, 1)),
+      cardsDealerStart: true
     }))
 
-
+    
   }
-
-  winner = () => {
-    if (this.state.cardsPlayer.reduce((a, b) => a + b) === 21) {
-      alert('player winner')
+  
+  giveCards = () =>{
+    // Dar as cartas.
+    this.setState(prevState => ({
+      cardsPlayer: this.state.cardsPlayer.concat(prevState.randomCards.splice(0, 1)),
+      cardsDealer: this.state.cardsDealer.concat(prevState.randomCards.splice(0, 1)),
+    }))    
+  }
+  
+  countScorePlayer = () => {
+    //Faz a duas verificações:
+    // A primeira, é no incio do jogo, se ao dar as cartas, o Player obteve 21 pontos (Winner)
+    // A segunda, é se ao pedir mais cartas ele ultrapassou de 21 pontos (Busted)
+    // Se nenhuma dessas forem true, então o jogo continua normalmente.
+    let scorePlayer = 0;
+    for (var i = 0; i < this.state.cardsPlayer.length; i++) {
+      scorePlayer += this.state.cardsPlayer[i];
     }
+    if (scorePlayer > 21) {
+      alert('busted')
+    } else if  (scorePlayer===21) { 
+      alert('winner')
+    } 
+    return scorePlayer;
   }
-
-  giveCards = () => {
-
-    if (this.state.cardsPlayer.reduce((a, b) => a + b) > 21) {
-     alert('busted')
-    } else if  (this.state.cardsPlayer.reduce((a, b) => a + b) < 21) { 
-      alert('player winner')
+  
+  
+  countScoreDealer = () => {  
+    //Contar os pontos do Dealer
+    let scoreDealer = 0;
+    
+    for (var i = 0; i < this.state.cardsDealer.length; i++) {
+      scoreDealer += this.state.cardsDealer[i];
     }
+    
+    return scoreDealer
   }
+  
+  concatAllCardsDealer = () => {
+    this.setState({
+      startCardsDealer: this.state.startCardsDealer.splice(1,1).concat(this.state.cardsDealer)
+    })
+      }
 
-  finishGame = () => {
-    const scorePlayer = this.state.cardsPlayer.reduce((a, b) => a + b);
-    const scoreDealer = this.state.cardsDealer.reduce((a, b) => a + b);
+  countWinner = () => {
+    //Faz a verificação de quem ganhou.
 
-    for (let i = scoreDealer; i < scorePlayer; i++) {
-      this.state.cardsDealer.push(this.state.randomCards.splice(0, 1))
-    }
+    let scoreDealer = 0;
+    let scorePlayer2 = 0;
 
-
-  }
-
-  render() {
     console.log(this.state.cardsDealer)
+
+    for (var i = 0; i < this.state.cardsDealer.length; i++) {
+      scoreDealer += this.state.cardsDealer[i];
+    }
+
+    for (var o = 0; o < this.state.cardsPlayer.length; o++) {
+      scorePlayer2 += this.state.cardsPlayer[o];
+    }
+    
+    if(scorePlayer2>scoreDealer){
+      alert('Player Winner')
+    } else {
+      alert('Dealer Winner')
+    }
+  }
+  
+  finishGame = () => {
+    this.setState({
+      winner: true,
+      cardsDealerStart: false
+    })
+  }
+  
+  render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">BLACK JACK</h1>
-          <div>
-            <button className='buttons' onClick={this.startGame}> Começar </button>
-            <button className='buttons' onClick={this.giveCards}> Dar as cartas </button>
-            <button className='buttons' onClick={this.finishGame}> Finalizar </button>
-          </div>
-        </header>
-        <h1> Player 1 </h1>
-        <div className="App-intro">
-          <div className='table'>
-            {this.state.cardsPlayer.map(i => <div className="card" key={i}><p className='number'>{i}</p></div>)}
-          </div>
-        </div>
-        <h1> Dealer </h1>
-        <div className="App-intro">
-          <div className='table'>
-            {this.state.cardsDealer.map((i) => <div className="card" key={i}><p className='number'>{i}</p></div>)}
-          </div>
-        </div>
+      <header className="App-header">
+      <img src={logo} className="App-logo" alt="logo" />
+      <h1 className="App-title">BLACK JACK</h1>
+      <div>
+      <button className='buttons' onClick={this.startGame}> Começar </button>
+      <button className='buttons' onClick={this.giveCards}> Dar as cartas </button>
+      <button className='buttons' onClick={this.finishGame}> Finalizar </button>
+      </div>
+      </header>
+      <h1> Player 1 </h1>
+      <div className="App-intro">
+      <div className='table'>
+      {this.state.cardsPlayer.map(i => <div className="card" key={i}><p className='number'>{i}</p></div>)}
+      {this.countScorePlayer()}
+      </div>
+      </div>
+      <h1> Dealer </h1>
+      <div className="App-intro">
+      <div className='table'>
+      <button onClick={this.concatAllCardsDealer}> oi </button>
+      {this.state.winner && this.countScoreDealer()}
+      {this.state.winner && this.countWinner()}
+      {this.state.winner && this.state.startCardsDealer.map((i) =><div className="card" key={i}><p className='number'>{i}</p></div>)}
+     
+      {this.state.cardsDealerStart && this.state.startCardsDealer.map(i=><div className='card'><p className='number'> {i} </p></div>)}
+      
+      </div>
+      </div>
       </div>
     );
   }
