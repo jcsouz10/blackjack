@@ -2,13 +2,52 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const card = [];
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      cards: [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11],
+  deck: [
+    {
+      "value": 2,
+      "bg_img": ""
+  },
+    {
+      "value": 3,
+      "bg_img": ""
+  },
+    {
+      "value": 4,
+      "bg_img": ""
+  },
+    {
+      "value": 5,
+      "bg_img": ""
+  },
+    {
+      "value": 6,
+      "bg_img": ""
+  },
+    {
+      "value": 7,
+      "bg_img": ""
+  },
+    {
+      "value": 8,
+      "bg_img": ""
+  },
+    {
+      "value": 9,
+      "bg_img": ""
+  },
+    {
+      "value": "A",
+      "bg_img": "",
+      "alternative_value": ""
+  }
+  ],
       randomCards: [],
       cardsPlayer: [],
       startCardsDealer: [null],
@@ -16,6 +55,11 @@ class App extends Component {
       winner: false,
       cardsDealerStart: false
     }
+  }
+
+  initGame = () =>{
+    this.state.deck.map((i)=>card.push(i.value))
+    console.log(card)
   }
 
   startGame = () => {
@@ -138,6 +182,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        
+        <button onClick={this.initGame}> Teste </button>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">BLACK JACK</h1>

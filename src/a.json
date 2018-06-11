@@ -1,0 +1,41 @@
+{
+  "deck": [
+    {
+      "value": 2,
+      "bg_img": ""
+  },
+    {
+      "value": 3,
+      "bg_img": ""
+  },
+    {
+      "value": 4,
+      "bg_img": ""
+  },
+    {
+      "value": 5,
+      "bg_img": ""
+  },
+    {
+      "value": 6,
+      "bg_img": ""
+  },
+    {
+      "value": 7,
+      "bg_img": ""
+  },
+    {
+      "value": 8,
+      "bg_img": ""
+  },
+    {
+      "value": 9,
+      "bg_img": ""
+  },
+    {
+      "value": "A",
+      "bg_img": "",
+      "alternative_value": ""
+  }
+  ]
+}
