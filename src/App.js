@@ -66,8 +66,8 @@ class App extends Component {
     //Contar os pontos do Dealer
     let scoreDealer = 0;
     
-    for (var i = 0; i < this.state.cardsDealer.length; i++) {
-      scoreDealer += this.state.cardsDealer[i];
+    for (var i = 0; i < this.state.startCardsDealer.length; i++) {
+      scoreDealer += this.state.startCardsDealer[i];
     }
     
     return scoreDealer
@@ -81,24 +81,25 @@ class App extends Component {
 
   countWinner = () => {
     //Faz a verificação de quem ganhou.
-
     let scoreDealer = 0;
-    let scorePlayer2 = 0;
+    let scorePlayer = 0;
 
-    console.log(this.state.cardsDealer)
-
-    for (var i = 0; i < this.state.cardsDealer.length; i++) {
-      scoreDealer += this.state.cardsDealer[i];
+    for (var i = 0; i < this.state.startCardsDealer.length; i++) {
+      scoreDealer += this.state.startCardsDealer[i];
     }
 
     for (var o = 0; o < this.state.cardsPlayer.length; o++) {
-      scorePlayer2 += this.state.cardsPlayer[o];
+      scorePlayer += this.state.cardsPlayer[o];
     }
     
-    if(scorePlayer2>scoreDealer){
+    if(scorePlayer > scoreDealer){
       alert('Player Winner')
-    } else {
+    } else if (scoreDealer > scorePlayer && scoreDealer <= 21) {
       alert('Dealer Winner')
+    } else if (scoreDealer === scorePlayer){
+      alert('nobody winner')
+    } else if (scoreDealer > 21){
+      alert('Player Winner')
     }
   }
   
@@ -107,6 +108,9 @@ class App extends Component {
       winner: true,
       cardsDealerStart: false
     })
+
+    this.concatAllCardsDealer()
+    console.log(this.state.startCardsDealer)
   }
   
   render() {
@@ -131,7 +135,6 @@ class App extends Component {
       <h1> Dealer </h1>
       <div className="App-intro">
       <div className='table'>
-      <button onClick={this.concatAllCardsDealer}> oi </button>
       {this.state.winner && this.countScoreDealer()}
       {this.state.winner && this.countWinner()}
       {this.state.winner && this.state.startCardsDealer.map((i) =><div className="card" key={i}><p className='number'>{i}</p></div>)}
