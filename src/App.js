@@ -12,40 +12,49 @@ class App extends Component {
   deck: [
     {
       "value": 2,
-      "bg_img": ""
+      "bg_img": "",
+      "status": true
   },
     {
       "value": 3,
-      "bg_img": ""
+      "bg_img": "",
+      "status": true
   },
     {
       "value": 4,
-      "bg_img": ""
+      "bg_img": "",
+      "status": true
   },
     {
       "value": 5,
-      "bg_img": ""
+      "bg_img": "",
+      "status": true      
   },
     {
       "value": 6,
-      "bg_img": ""
+      "bg_img": "",
+      "status": true            
   },
     {
       "value": 7,
-      "bg_img": ""
+      "bg_img": "",
+      "status": true            
   },
     {
       "value": 8,
-      "bg_img": ""
+      "bg_img": "",
+      "status": true            
   },
     {
       "value": 9,
-      "bg_img": ""
+      "bg_img": "",
+      "status": true            
   },
     {
       "value": "A",
       "bg_img": "",
-      "alternative_value": ""
+      "alternative_value": "",
+      "status": true            
   }
   ],
       randomCards: [],
