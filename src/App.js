@@ -2,61 +2,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const card = [];
-
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-  deck: [
-    {
-      "value": 2,
-      "bg_img": "",
-      "status": true
-  },
-    {
-      "value": 3,
-      "bg_img": "",
-      "status": true
-  },
-    {
-      "value": 4,
-      "bg_img": "",
-      "status": true
-  },
-    {
-      "value": 5,
-      "bg_img": "",
-      "status": true      
-  },
-    {
-      "value": 6,
-      "bg_img": "",
-      "status": true            
-  },
-    {
-      "value": 7,
-      "bg_img": "",
-      "status": true            
-  },
-    {
-      "value": 8,
-      "bg_img": "",
-      "status": true            
-  },
-    {
-      "value": 9,
-      "bg_img": "",
-      "status": true            
-  },
-    {
-      "value": "A",
-      "bg_img": "",
-      "alternative_value": "",
-      "status": true            
-  }
-  ],
+      cards: [2,3,4,5,6,7,8,9,10,11,2,3,4,5,6,7,8,9,10,11,2,3,4,5,6,7,8,9,10,11,2,3,4,5,6,7,8,9,10,11],
       randomCards: [],
       cardsPlayer: [],
       startCardsDealer: [null],
@@ -64,11 +15,6 @@ class App extends Component {
       winner: false,
       cardsDealerStart: false
     }
-  }
-
-  initGame = () =>{
-    this.state.deck.map((i)=>card.push(i.value))
-    console.log(card)
   }
 
   startGame = () => {
@@ -126,9 +72,16 @@ class App extends Component {
     return scoreDealer
   }
 
+
+  teste = () =>{
+     this.setState({
+      startCardsDealer: this.state.startCardsDealer.splice(1, 1).concat(this.state.cardsDealer)
+    })
+  }
+
   concatAllCardsDealer = () => {
     this.setState({
-      startCardsDealer: this.state.startCardsDealer.splice(1, 1).concat(this.state.cardsDealer)
+      startCardsDealer: this.state.startCardsDealer.concat(this.state.cardsDealer)
     })
 
   }
@@ -157,17 +110,21 @@ class App extends Component {
     }
   }
 
+
+
   finishGame = () => {
+    this.concatAllCardsDealer();
+    
     this.setState({
       winner: true,
       cardsDealerStart: false
     })
-
-    this.concatAllCardsDealer()
+    
+    this.teste();
     console.log(this.state.startCardsDealer)
   }
 
-
+  
   giveCardsToDealer = () => {
     let scoreDealer = 0;
     let scorePlayer = 0;
@@ -189,10 +146,9 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.startCardsDealer)
     return (
       <div className="App">
-        
-        <button onClick={this.initGame}> Teste </button>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">BLACK JACK</h1>
